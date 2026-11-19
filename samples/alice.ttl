@@ -1,0 +1,100 @@
+# Alice Example: a fictional profile for trying the profile pane. Every name, number and address here is made up.
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix schema: <http://schema.org/> .
+@prefix solid: <http://www.w3.org/ns/solid/terms#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix lang: <https://www.w3.org/ns/iana/language-code/> .
+@prefix sm: <https://solidos.github.io/profile-pane/src/ontology/socialMedia.ttl#> .
+
+<> a foaf:PersonalProfileDocument ; foaf:maker <#me> ; foaf:primaryTopic <#me> .
+
+<#me> a foaf:Person, schema:Person ;
+  foaf:name "Alice Example" ;
+  foaf:nick "alice" ;
+  solid:preferredSubjectPronoun "she" ;
+  solid:preferredObjectPronoun "her" ;
+  foaf:img <data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%20120%22%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20fill%3D%22%23ede7ff%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2248%22%20r%3D%2222%22%20fill%3D%22%237c4dff%22%2F%3E%3Cpath%20d%3D%22M20%20112c4-24%2020-36%2040-36s36%2012%2040%2036z%22%20fill%3D%22%237c4dff%22%2F%3E%3C%2Fsvg%3E> ;
+  vcard:note """Builds tools for personal data stores and likes small, readable programs.
+
+Based in Lisbon. Usually walking, cycling or reading on a train.""" ;
+  foaf:homepage <https://alice.example.org/> ;
+  foaf:weblog <https://alice.example.org/blog/> ;
+
+  # contact details
+  vcard:hasEmail <#email-work>, <#email-home> ;
+  vcard:hasTelephone <#phone> ;
+  vcard:hasAddress <#address> ;
+
+  # skills as plain repeated values
+  schema:skills <#skill-rdf>, <#skill-js>, <#skill-a11y>, <#skill-ux>, <#skill-js-again> ;
+
+  # languages as an RDF list, with English twice, plus a second list head and a plain value (as in SolidOS/profile-pane#260)
+  schema:knowsLanguage ( <#lang-en> <#lang-pt> <#lang-en-again> ) ;
+  schema:knowsLanguage ( <#lang-pt> <#lang-fr> ) ;
+  schema:knowsLanguage <#lang-de> ;
+
+  # social accounts: one list and one plain value
+  foaf:account ( <#acc-github> <#acc-linkedin> ) ;
+  foaf:account <#acc-mastodon> ;
+
+  # projects and communities
+  solid:community <#project-pods>, <#community-readers> ;
+
+  foaf:knows <#bob>, <https://melvin.solid.social/profile/card.jsonld#me> .
+
+<#email-work> a vcard:Work ; vcard:value <mailto:alice@example.org> .
+<#email-home> a vcard:Home ; vcard:value <mailto:alice.home@example.net> .
+<#phone> a vcard:Cell ; vcard:value <tel:+351-210-000-000> .
+<#address> vcard:street-address "1 Example Street" ; vcard:locality "Lisbon" ; vcard:postal-code "1000-001" ; vcard:country-name "Portugal" .
+
+<#skill-rdf> schema:name "Linked Data" .
+<#skill-js> schema:name "JavaScript" .
+<#skill-a11y> schema:name "Accessibility" .
+<#skill-ux> solid:publicId <#esco-ux> .
+<#esco-ux> schema:name "User experience design" .
+<#skill-js-again> schema:name "JavaScript" .
+
+<#lang-en> solid:publicId lang:en ; schema:proficiencyLevel "Native" .
+<#lang-en-again> solid:publicId lang:en .
+<#lang-pt> solid:publicId lang:pt ; schema:proficiencyLevel "Fluent" .
+<#lang-fr> solid:publicId lang:fr ; schema:proficiencyLevel "Conversational" .
+<#lang-de> schema:name "German"@en, "Deutsch"@de ; schema:proficiencyLevel "Basic" .
+
+<#acc-github> a sm:OtherAccount ; foaf:name "GitHub" ; foaf:accountName "alice-example" ; foaf:homepage <https://github.com/alice-example> .
+<#acc-linkedin> a sm:LinkedInAccount ; foaf:accountName "alice-example" .
+<#acc-mastodon> a sm:OtherAccount ; foaf:name "Mastodon" ; foaf:accountName "@alice@social.example.org" ; foaf:homepage <https://social.example.org/@alice> .
+
+# resume: memberships point at the person with org:member
+<#role-now> a solid:CurrentRole ;
+  org:member <#me> ;
+  org:organization <#org-labs> ;
+  vcard:role "Lead engineer" ;
+  schema:startDate "2022-03-01"^^xsd:date ;
+  schema:description "Leads a small team building a pod browser and its panes. Looks after accessibility and the release process." .
+<#role-before> a solid:PastRole ;
+  org:member <#me> ;
+  org:organization <#org-coop> ;
+  vcard:role "Web developer" ;
+  schema:startDate "2017-09-01"^^xsd:date ;
+  schema:endDate "2022-02-01"^^xsd:date ;
+  schema:description "Built the member site and the booking system." .
+<#role-first> a solid:PastRole ;
+  org:member <#me> ;
+  org:organization <#org-uni> ;
+  vcard:role "Research assistant" ;
+  schema:startDate "2015-01-01"^^xsd:date ;
+  schema:endDate "2017-06-01"^^xsd:date .
+
+<#org-labs> a schema:Corporation ; schema:name "Example Labs" ; org:location "Lisbon" ; schema:uri <https://labs.example.org/> .
+<#org-coop> a schema:Organization ; schema:name "Bike Coop Example" ; org:location "Porto" .
+<#org-uni> a schema:CollegeOrUniversity ; schema:name "Example University" ; org:location "Coimbra" .
+
+<#project-pods> a schema:Project ; foaf:name "Pod Tools" ; vcard:organization-name "Example Labs" ;
+  foaf:img <data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23fef3c7%22%2F%3E%3Cpath%20d%3D%22M32%2012l18%2010v20L32%2052%2014%2042V22z%22%20fill%3D%22%23a65f00%22%2F%3E%3C%2Fsvg%3E> ; schema:url <https://pods.example.org/> .
+<#community-readers> a schema:Community ; foaf:name "Lisbon Readers" ; vcard:organization-name "A reading group" ;
+  foaf:img <data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23f3e8ff%22%2F%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2228%22%20r%3D%228%22%20fill%3D%22%23ad46ff%22%2F%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2228%22%20r%3D%228%22%20fill%3D%22%237c4dff%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2242%22%20r%3D%228%22%20fill%3D%22%235b34d6%22%2F%3E%3C%2Fsvg%3E> ; schema:url <https://readers.example.org/> .
+
+<#bob> a foaf:Person ; foaf:name "Bob Example" .
