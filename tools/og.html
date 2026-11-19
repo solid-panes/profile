@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- The picture shown when a link to solid-panes.github.io/notes is shared (og.png, 1200 × 630).
+     node tools/og.mjs renders this page to ../og.png. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Atkinson'; font-weight: 100 900; src: url('atkinson.woff2') format('woff2') }
+  * { box-sizing: border-box; margin: 0 }
+  body { width: 1200px; height: 630px; overflow: hidden; font-family: 'Atkinson', system-ui, sans-serif; color: #fff;
+    background:
+      radial-gradient(900px 520px at 88% 12%, rgba(124, 77, 255, .55), transparent 62%),
+      radial-gradient(700px 500px at 4% 104%, rgba(64, 196, 255, .22), transparent 60%),
+      linear-gradient(135deg, #0b1220 0%, #151d33 55%, #1d1740 100%) }
+  .grid { position: absolute; inset: 0; opacity: .18;
+    background-image: linear-gradient(rgba(255,255,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.09) 1px, transparent 1px);
+    background-size: 48px 48px; mask-image: radial-gradient(900px 500px at 70% 40%, #000, transparent 75%) }
+  .left { position: absolute; left: 72px; top: 70px; width: 520px }
+  .brand { display: flex; align-items: center; gap: 22px }
+  .brand img { width: 104px; height: 96px; filter: drop-shadow(0 10px 30px rgba(124, 77, 255, .65)) }
+  .brand b { font-size: 104px; font-weight: 800; letter-spacing: -.035em; line-height: 1 }
+  .pill { display: inline-block; margin-top: 26px; font-size: 26px; font-weight: 700; padding: 6px 20px; border-radius: 999px; background: #7c4dff; letter-spacing: .02em }
+  h1 { margin-top: 20px; font-size: 50px; font-weight: 700; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance }
+  h1 em { font-style: normal; color: #b9a3ff }
+  p { margin-top: 22px; font-size: 27px; line-height: 1.35; color: #c3cde0; max-width: 480px }
+  p code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 24px; color: #fff; background: rgba(255,255,255,.12); padding: 2px 8px; border-radius: 8px }
+  .tags { position: absolute; left: 72px; bottom: 60px; display: flex; gap: 12px }
+  .tags span { font-size: 20px; font-weight: 600; padding: 8px 18px; border-radius: 999px; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16); color: #dbe3f3 }
+
+  .win { position: absolute; left: 640px; top: 96px; width: 640px; height: 560px; border-radius: 22px; overflow: hidden;
+    background: #f8f9fb; box-shadow: 0 40px 90px rgba(3, 6, 20, .65), 0 0 0 1px rgba(255,255,255,.14); transform: rotate(-2.200deg) }
+  .bar { height: 68px; background: #1d293d; display: flex; align-items: center; gap: 14px; padding: 0 18px }
+  .bar img { width: 40px; height: 37px }
+  .addr { flex: 1; height: 44px; border-radius: 999px; background: #fff; display: flex; align-items: center; padding: 0 6px 0 16px; gap: 10px; box-shadow: 0 0 0 3px #a48bff }
+  .addr i { width: 18px; height: 18px; border-radius: 50%; border: 2.200px solid #62748e }
+  .addr span { flex: 1; color: #0f172b; font-size: 19px; white-space: nowrap; overflow: hidden }
+  .addr span b { color: #7c4dff; font-weight: 800 }
+  .addr u { text-decoration: none; background: #7c4dff; color: #fff; font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px }
+  .note { padding: 26px 34px; color: #1d1d1f }
+  .nav { display: flex; justify-content: space-between; margin-bottom: 22px }
+  .nav span { font-size: 16px; font-weight: 700; color: #5b2fe0; background: #f1ecff; padding: 6px 14px; border-radius: 999px }
+  .date { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: #86868b; margin-bottom: 4px }
+  .note h2 { font-size: 40px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 14px }
+  .note h3 { font-size: 23px; font-weight: 700; color: #7c4dff; margin: 20px 0 10px }
+  .note div.t { font-size: 21px; line-height: 1.5; color: #1d1d1f; margin-bottom: 8px }
+  .note a { color: #5b2fe0; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 600 }
+  .note a.miss { color: #86868b; text-decoration: none; border-bottom: 2px dashed #b0b0b6; font-weight: 400 }
+  .task { display: flex; align-items: center; gap: 12px; font-size: 21px; margin-bottom: 8px }
+  .task i { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #b0b0b6; flex: none }
+  .task.done { color: #86868b; text-decoration: line-through } .task.done i { background: #7c4dff; border-color: #7c4dff }
+.pf{padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px;background:#f8f9fb;flex:1}
+.pf-head{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #e6e8ee;border-radius:8px;padding:14px 16px}
+.pf-av{width:58px;height:58px;border-radius:8px;background:#ede7ff;border:2px solid #7c4dff;display:grid;place-items:center}.pf-av svg{width:42px;height:42px}
+.pf-name{font-size:25px;font-weight:700;color:#14161c;line-height:1.15}.pf-sub{font-size:14px;color:#6b7280;margin-top:3px}
+.pf-card{background:#fff;border:1px solid #e6e8ee;border-radius:8px;padding:12px 16px;flex:1}.pf-card h4{margin:0 0 6px;font-size:17px;font-weight:500;color:#2c3340}
+.pf .t{font-size:14.5px;color:#1f2430;line-height:1.5}.pf .t i{font-style:normal;color:#6b7280;font-size:13px;margin-left:4px}
+.pf-row{display:flex;gap:12px}.pf-chips{display:flex;flex-wrap:wrap;gap:6px}.pf-chips span{background:#f1f3f7;border-radius:5px;padding:3px 9px;font-size:13.5px;color:#1f2430}
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="left">
+    <div class="brand"><img src="og-emblem.svg" alt=""><b>profile</b></div>
+    <div class="pill">a SolidOS pane</div>
+    <h1>A profile, <em>by link</em></h1>
+    <p>A person’s WebID shown as a page: photo, bio, resume, skills, languages and contacts.</p>
+  </div>
+  <div class="tags"><span>one file</span><span>read-only</span><span>loaded by link</span></div>
+
+  <div class="win">
+    <div class="bar">
+      <img src="og-emblem.svg" alt="">
+      <div class="addr"><i></i><span>…/dynamic/<b>?pane=</b>…/profile-pane.js</span><u>Go</u></div>
+    </div>
+    <div class="pf">
+      <div class="pf-head"><div class="pf-av"><svg viewBox="0 0 24 24" fill="#7c4dff"><circle cx="12" cy="8.5" r="4.2"/><path d="M3.5 21c.8-4.6 4.2-7 8.5-7s7.700 2.400 8.500 7z"/></svg></div><div><div class="pf-name">Alice Example</div><div class="pf-sub">alice · Lead engineer · Lisbon, Portugal</div></div></div>
+      <div class="pf-card"><h4>Bio</h4><div class="t">Builds tools for personal data stores and likes small, readable programs.</div></div>
+      <div class="pf-row">
+        <div class="pf-card"><h4>Skills</h4><div class="pf-chips"><span>Linked Data</span><span>JavaScript</span><span>Accessibility</span></div></div>
+        <div class="pf-card"><h4>Languages</h4><div class="t">English <i>Native</i><br>Portuguese <i>Fluent</i></div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
